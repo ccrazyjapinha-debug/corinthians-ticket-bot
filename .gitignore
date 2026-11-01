@@ -1,0 +1,22 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Configurações locais com credenciais reais (NUNCA versionar)
+config.json
+.env
+
+# Ambientes virtuais
+venv/
+.venv/
+env/
+
+# IDEs e editores
+.vscode/
+.idea/
+*.swp
+
+# Logs e arquivos temporários
+*.log
+screenshots/

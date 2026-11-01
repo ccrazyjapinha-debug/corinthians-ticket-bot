@@ -1,0 +1,39 @@
+{
+  "credentials": {
+    "login": "SEU_CPF_OU_EMAIL",
+    "password": "SUA_SENHA"
+  },
+  "captcha": {
+    "service": "manual",
+    "api_key": ""
+  },
+  "target": {
+    "match_name": "Corinthians x Palmeiras — Campeonato Brasileiro",
+    "stadium": "Neo Química Arena",
+    "event_url": "https://www.fieltorcedor.com.br/jogos",
+    "ticket_type": "Fiel Torcedor",
+    "setor_preferido": "Norte",
+    "setores_por_prioridade": [
+      "Norte",
+      "Sul",
+      "Leste Inferior",
+      "Leste Superior",
+      "Oeste Inferior"
+    ],
+    "quantity": 1
+  },
+  "monitor": {
+    "ativo": true,
+    "venda_abre_em": "2026-11-05T11:00:00",
+    "iniciar_antes_minutos": 5,
+    "intervalo_checagem_segundos": 3,
+    "login_antecipado": true
+  },
+  "settings": {
+    "headless": false,
+    "page_load_timeout": 30,
+    "retry_attempts": 5,
+    "retry_delay": 2,
+    "notification_sound": true
+  }
+}
