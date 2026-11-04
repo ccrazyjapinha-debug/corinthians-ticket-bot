@@ -13,9 +13,9 @@ except ImportError:
 
 def notificar_sucesso(mensagem="INGRESSO DO CORINTHIANS RESERVADO COM SUCESSO!"):
     """Emite alerta sonoro e visual indicando conclusão da reserva."""
-    print("\n" + "🦅 " * 18)
-    print(f"  ✅  {mensagem}")
-    print("🦅 " * 18 + "\n")
+    print("\n" + "=" * 60)
+    print(f"  [SUCESSO] {mensagem}")
+    print("=" * 60 + "\n")
 
     if TEM_SOM:
         def _tocar_som():
@@ -27,7 +27,7 @@ def notificar_sucesso(mensagem="INGRESSO DO CORINTHIANS RESERVADO COM SUCESSO!")
 
 def notificar_erro(mensagem="FALHA NO FLUXO DE RESERVA"):
     """Emite alerta de erro visual e sonoro."""
-    print(f"\n  ❌  {mensagem}\n")
+    print(f"\n  [ERRO] {mensagem}\n")
 
     if TEM_SOM:
         def _tocar_erro():

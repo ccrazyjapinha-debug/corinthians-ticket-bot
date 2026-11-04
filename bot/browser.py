@@ -34,17 +34,17 @@ def criar_driver(headless=False, page_load_timeout=30):
     try:
         driver = webdriver.Chrome(options=options)
         driver.set_page_load_timeout(page_load_timeout)
-        print(Fore.GREEN + f"[✓] Conectado ao Chrome via CDP (aba ativa: {driver.title[:50]})")
+        print(Fore.GREEN + f"[OK] Conectado ao Chrome via CDP (aba ativa: {driver.title[:50]})")
         _registrar_sinal_vida()
         return driver
 
     except Exception as e:
         print(Fore.RED + f"""
-╔══════════════════════════════════════════════════════════════╗
-║  ❌  CHROME NÃO ENCONTRADO NA PORTA {DEBUG_PORT}                  ║
-╠══════════════════════════════════════════════════════════════╣
-║  Execute primeiro o script: start_chrome.bat                 ║
-╚══════════════════════════════════════════════════════════════╝
+==============================================================
+  [ERRO] CHROME NAO ENCONTRADO NA PORTA {DEBUG_PORT}
+--------------------------------------------------------------
+  Execute primeiro o script: start_chrome.bat
+==============================================================
 """)
         raise RuntimeError(f"Chrome não está rodando na porta {DEBUG_PORT}") from e
 
@@ -79,7 +79,7 @@ def iniciar_watchdog(driver, timeout_segundos=60, callback=None):
                 inativo_ha = time.time() - _ultimo_sinal_vida
 
             if inativo_ha > timeout_segundos:
-                print(Fore.YELLOW + f"\n[⚠️  WATCHDOG] Fluxo sem resposta há {int(inativo_ha)}s — executando recuperação!")
+                print(Fore.YELLOW + f"\n[WATCHDOG] Fluxo sem resposta há {int(inativo_ha)}s — executando recuperação!")
                 if callback:
                     try:
                         callback(driver)
@@ -143,7 +143,7 @@ def aceitar_cookies(driver):
             ))
         )
         botao.click()
-        print("[✓] Banner de cookies fechado")
+        print("[OK] Banner de cookies fechado")
         time.sleep(0.8)
     except Exception:
         pass

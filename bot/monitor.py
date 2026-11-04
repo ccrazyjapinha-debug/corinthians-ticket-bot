@@ -36,13 +36,13 @@ def aguardar_horario_abertura(horario_str, minutos_antes=5):
     agora = datetime.now()
 
     if agora >= inicio_bot:
-        print(Fore.YELLOW + "[!] Horário de preparação atingido — iniciando execução imediatamente...")
+        print(Fore.YELLOW + "[AVISO] Horário de preparação atingido — iniciando execução imediatamente...")
         return
 
     espera_total = (inicio_bot - agora).total_seconds()
-    print(Fore.CYAN + f"\n⏰ Abertura das vendas: {abertura.strftime('%d/%m às %H:%M')}")
-    print(Fore.CYAN + f"🤖 Ativação do monitor: {inicio_bot.strftime('%d/%m às %H:%M')} ({minutos_antes} min antes)")
-    print(Fore.CYAN + f"⏳ Tempo de espera: {int(espera_total // 60)} min e {int(espera_total % 60)}s\n")
+    print(Fore.CYAN + f"\n[INFO] Abertura das vendas: {abertura.strftime('%d/%m às %H:%M')}")
+    print(Fore.CYAN + f"[INFO] Ativação do monitor: {inicio_bot.strftime('%d/%m às %H:%M')} ({minutos_antes} min antes)")
+    print(Fore.CYAN + f"[INFO] Tempo de espera: {int(espera_total // 60)} min e {int(espera_total % 60)}s\n")
 
     while True:
         _registrar_sinal_vida()
@@ -50,19 +50,19 @@ def aguardar_horario_abertura(horario_str, minutos_antes=5):
         restante = (inicio_bot - agora).total_seconds()
 
         if restante <= 0:
-            print(Fore.GREEN + Style.BRIGHT + "\n✅ Janela de preparação aberta! Iniciando monitor...\n")
+            print(Fore.GREEN + Style.BRIGHT + "\n[OK] Janela de preparação aberta! Iniciando monitor...\n")
             break
 
         if restante <= 60:
-            print(Fore.YELLOW + f"\r⏳ {int(restante)}s para iniciar...", end="", flush=True)
+            print(Fore.YELLOW + f"\r[AGUARDANDO] {int(restante)}s para iniciar...", end="", flush=True)
             time.sleep(1)
         elif restante <= 300:
-            print(Fore.CYAN + f"\r⏳ {int(restante // 60)}min {int(restante % 60)}s para iniciar...", end="", flush=True)
+            print(Fore.CYAN + f"\r[AGUARDANDO] {int(restante // 60)}min {int(restante % 60)}s para iniciar...", end="", flush=True)
             time.sleep(10)
         else:
             horas = int(restante // 3600)
             minutos = int((restante % 3600) // 60)
-            print(Fore.CYAN + f"\r⏳ {horas}h {minutos}min para iniciar...", end="", flush=True)
+            print(Fore.CYAN + f"\r[AGUARDANDO] {horas}h {minutos}min para iniciar...", end="", flush=True)
             time.sleep(30)
 
 
@@ -98,7 +98,7 @@ def venda_esta_aberta(driver, url_evento):
         return False
 
     except Exception as e:
-        print(Fore.RED + f"[!] Erro ao consultar disponibilidade da partida: {e}")
+        print(Fore.RED + f"[ERRO] Erro ao consultar disponibilidade da partida: {e}")
         return False
 
 
@@ -111,8 +111,8 @@ def monitorar_abertura(driver, config):
     intervalo = monitor.get("intervalo_checagem_segundos", 3)
     url_alvo = target["event_url"]
 
-    print(Fore.CYAN + f"[🔍] Monitorando partida em: {url_alvo}")
-    print(Fore.CYAN + f"[🔍] Intervalo de verificação: {intervalo}s\n")
+    print(Fore.CYAN + f"[MONITOR] Monitorando partida em: {url_alvo}")
+    print(Fore.CYAN + f"[MONITOR] Intervalo de verificação: {intervalo}s\n")
 
     tentativa = 0
     while True:
@@ -120,7 +120,7 @@ def monitorar_abertura(driver, config):
         agora = datetime.now().strftime("%H:%M:%S")
 
         if venda_esta_aberta(driver, url_alvo):
-            print(Fore.GREEN + Style.BRIGHT + f"\n\n🚨 [{agora}] RESERVAS LIBERADAS! Iniciando seleção de setor!\n")
+            print(Fore.GREEN + Style.BRIGHT + f"\n\n[OK] [{agora}] RESERVAS LIBERADAS! Iniciando seleção de setor!\n")
             return url_alvo
 
         print(Fore.YELLOW + f"[{agora}] #{tentativa} Venda ainda não liberada... nova checagem em {intervalo}s")
@@ -137,7 +137,7 @@ def fazer_login_antecipado(driver, config):
     creds = config["credentials"]
     captcha_cfg = config["captcha"]
 
-    print(Fore.CYAN + "\n[→] Verificando sessão / login antecipado no Fiel Torcedor...")
+    print(Fore.CYAN + "\n[INFO] Verificando sessão / login antecipado no Fiel Torcedor...")
     driver.get(config["target"]["event_url"])
     time.sleep(2)
 
@@ -149,7 +149,7 @@ def fazer_login_antecipado(driver, config):
 
     login_user = creds.get("login") or creds.get("email", "")
     if not fazer_login(driver, login_user, creds["password"]):
-        print(Fore.RED + "[✗] Não foi possível preencher o login antecipado")
+        print(Fore.RED + "[ERRO] Não foi possível preencher o login antecipado")
         return False
 
     captcha_ok = False
@@ -163,8 +163,8 @@ def fazer_login_antecipado(driver, config):
         clicar_botao_login(driver)
         time.sleep(2.5)
         if verificar_login_ok(driver):
-            print(Fore.GREEN + "[✓] Login antecipado concluído com sucesso!")
+            print(Fore.GREEN + "[OK] Login antecipado concluído com sucesso!")
             return True
 
-    print(Fore.YELLOW + "[!] Login antecipado pendente — será validado na etapa final")
+    print(Fore.YELLOW + "[AVISO] Login antecipado pendente — será validado na etapa final")
     return False

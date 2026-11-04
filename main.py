@@ -1,15 +1,13 @@
 """
-╔══════════════════════════════════════════════════════════════════╗
-║   🦅  CORINTHIANS TICKET BOT — AUTOMAÇÃO DE RESERVA (RPA)    🦅  ║
-║   Monitoramento de Abertura + Seleção de Setor com Fallback      ║
-╚══════════════════════════════════════════════════════════════════╝
+CORINTHIANS TICKET BOT — AUTOMAÇÃO DE RESERVA (RPA)
+Monitoramento de Abertura + Seleção de Setor com Fallback
 
 USO:
-  python main.py                  → Modo completo (monitor + reserva)
-  python main.py --debug          → Mantém o navegador aberto ao finalizar
-  python main.py --sem-monitor    → Pula o monitor e executa a reserva direto
-  python main.py --setor "Norte"  → Define o setor prioritário via CLI
-  python main.py --tentativas 3   → Define o número de tentativas em caso de falha
+  python main.py                  -> Modo completo (monitor + reserva)
+  python main.py --debug          -> Mantém o navegador aberto ao finalizar
+  python main.py --sem-monitor    -> Pula o monitor e executa a reserva direto
+  python main.py --setor "Norte"  -> Define o setor prioritário via CLI
+  python main.py --tentativas 3   -> Define o número de tentativas em caso de falha
 """
 
 import os
@@ -35,26 +33,26 @@ def carregar_config(caminho="config.json"):
     Caso config.json não exista, utiliza config.example.json como fallback.
     """
     if not os.path.exists(caminho) and os.path.exists("config.example.json"):
-        print(Fore.YELLOW + f"[!] '{caminho}' não encontrado — carregando 'config.example.json'.")
+        print(Fore.YELLOW + f"[AVISO] '{caminho}' não encontrado — carregando 'config.example.json'.")
         caminho = "config.example.json"
 
     try:
         with open(caminho, encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError:
-        print(Fore.RED + f"[✗] Arquivo de configuração '{caminho}' não encontrado!")
+        print(Fore.RED + f"[ERRO] Arquivo de configuração '{caminho}' não encontrado!")
         sys.exit(1)
     except json.JSONDecodeError as e:
-        print(Fore.RED + f"[✗] Erro de sintaxe no arquivo JSON: {e}")
+        print(Fore.RED + f"[ERRO] Erro de sintaxe no arquivo JSON: {e}")
         sys.exit(1)
 
 
 def exibir_banner():
     print(Fore.WHITE + Style.BRIGHT + """
-╔══════════════════════════════════════════════════════════════════╗
-║   🦅  CORINTHIANS TICKET BOT — FIEL TORCEDOR / NEO QUÍMICA   🦅  ║
-║   Automação Web Resiliente (Python + Selenium + Chrome CDP)      ║
-╚══════════════════════════════════════════════════════════════════╝
+==================================================================
+  CORINTHIANS TICKET BOT - FIEL TORCEDOR / NEO QUIMICA ARENA
+  Automacao Web Resiliente (Python + Selenium + Chrome CDP)
+==================================================================
     """)
 
 
@@ -68,21 +66,21 @@ def executar_reserva(driver, config, url_override=None, modo_debug=False):
     if url_override:
         config["target"]["event_url"] = url_override
 
-    print(Fore.YELLOW + "\n━━━ ETAPA 1: NAVEGAÇÃO E SELEÇÃO DE SETOR (NEO QUÍMICA ARENA) ━━━")
+    print(Fore.YELLOW + "\n--- ETAPA 1: NAVEGACAO E SELECAO DE SETOR (NEO QUIMICA ARENA) ---")
     sucesso = fluxo_completo_reserva(driver, config)
 
     if not sucesso:
         notificar_erro("Não foi possível concluir a seleção do ingresso")
         return False
 
-    print(Fore.YELLOW + "\n━━━ ETAPA 2: VALIDAÇÃO DE SESSÃO ━━━")
+    print(Fore.YELLOW + "\n--- ETAPA 2: VALIDACAO DE SESSAO ---")
     if not verificar_login_ok(driver):
         abrir_modal_login(driver)
         time.sleep(1.5)
         login_user = creds.get("login") or creds.get("email", "")
         fazer_login(driver, login_user, creds["password"])
 
-        print(Fore.YELLOW + "\n━━━ ETAPA 3: VERIFICAÇÃO DE SEGURANÇA ━━━")
+        print(Fore.YELLOW + "\n--- ETAPA 3: VERIFICACAO DE SEGURANCA ---")
         captcha_ok = False
         if captcha_cfg.get("service") == "2captcha" and captcha_cfg.get("api_key"):
             captcha_ok = resolver_captcha_api(driver, captcha_cfg["api_key"])
@@ -105,7 +103,7 @@ def executar_reserva(driver, config, url_override=None, modo_debug=False):
     )
 
     if not modo_debug:
-        print(Fore.GREEN + "\n[→] Reserva ativa! Aguardando 90s para conclusão manual do pagamento...")
+        print(Fore.GREEN + "\n[INFO] Reserva ativa! Aguardando 90s para conclusão manual do pagamento...")
         time.sleep(90)
 
     return True
@@ -127,15 +125,15 @@ def main():
 
     if args.setor:
         config["target"]["setor_preferido"] = args.setor
-        print(Fore.CYAN + f"[→] Setor prioritário definido via CLI: {args.setor}")
+        print(Fore.CYAN + f"[INFO] Setor prioritário definido via CLI: {args.setor}")
 
     monitor_cfg = config.get("monitor", {})
     target_cfg = config["target"]
 
-    print(Fore.CYAN + f"⚽ Partida:    {target_cfg.get('match_name', 'Corinthians')}")
-    print(Fore.CYAN + f"🏟️  Estádio:    {target_cfg.get('stadium', 'Neo Química Arena')}")
-    print(Fore.CYAN + f"🎟️  Setor Alvo: {target_cfg.get('setor_preferido', 'Norte')} ({target_cfg.get('ticket_type', 'Fiel Torcedor')})")
-    print(Fore.CYAN + f"🔢 Quantidade: {target_cfg.get('quantity', 1)}\n")
+    print(Fore.CYAN + f"Partida:    {target_cfg.get('match_name', 'Corinthians')}")
+    print(Fore.CYAN + f"Estadio:    {target_cfg.get('stadium', 'Neo Química Arena')}")
+    print(Fore.CYAN + f"Setor Alvo: {target_cfg.get('setor_preferido', 'Norte')} ({target_cfg.get('ticket_type', 'Fiel Torcedor')})")
+    print(Fore.CYAN + f"Quantidade: {target_cfg.get('quantity', 1)}\n")
 
     driver = criar_driver(
         headless=config["settings"].get("headless", False),
@@ -151,7 +149,7 @@ def main():
             print(Fore.RED + "[WATCHDOG] Falha ao tentar recarregar a página")
 
     iniciar_watchdog(driver, timeout_segundos=90, callback=_watchdog_reload)
-    print(Fore.CYAN + "[✓] Watchdog anti-stall ativo (timeout: 90s)")
+    print(Fore.CYAN + "[OK] Watchdog anti-stall ativo (timeout: 90s)")
 
     try:
         url_venda = None
@@ -166,34 +164,34 @@ def main():
             if monitor_cfg.get("login_antecipado", True):
                 fazer_login_antecipado(driver, config)
 
-            print(Fore.YELLOW + "\n━━━ MONITORANDO ABERTURA DAS RESERVAS ━━━")
+            print(Fore.YELLOW + "\n--- MONITORANDO ABERTURA DAS RESERVAS ---")
             url_venda = monitorar_abertura(driver, config)
 
         for i in range(args.tentativas):
             if args.tentativas > 1:
-                print(Fore.CYAN + f"\n[→] Tentativa {i + 1}/{args.tentativas}")
+                print(Fore.CYAN + f"\n[INFO] Tentativa {i + 1}/{args.tentativas}")
 
             sucesso = executar_reserva(
                 driver, config, url_override=url_venda, modo_debug=args.debug
             )
 
             if sucesso:
-                print(Fore.GREEN + Style.BRIGHT + "\n✅ AUTOMAÇÃO FINALIZADA COM SUCESSO!\n")
+                print(Fore.GREEN + Style.BRIGHT + "\n[OK] AUTOMACAO FINALIZADA COM SUCESSO!\n")
                 break
 
             if i < args.tentativas - 1:
                 delay = config["settings"].get("retry_delay", 2)
-                print(Fore.YELLOW + f"[→] Nova tentativa em {delay}s...")
+                print(Fore.YELLOW + f"[INFO] Nova tentativa em {delay}s...")
                 time.sleep(delay)
         else:
             if args.tentativas > 1:
-                print(Fore.RED + f"\n❌ Todas as {args.tentativas} tentativas falharam.\n")
+                print(Fore.RED + f"\n[ERRO] Todas as {args.tentativas} tentativas falharam.\n")
 
     except KeyboardInterrupt:
-        print(Fore.YELLOW + "\n[!] Execução interrompida pelo usuário.")
+        print(Fore.YELLOW + "\n[AVISO] Execução interrompida pelo usuário.")
 
     except Exception as e:
-        print(Fore.RED + f"\n[✗] Erro inesperado: {e}")
+        print(Fore.RED + f"\n[ERRO] Erro inesperado: {e}")
         if args.debug:
             import traceback
             traceback.print_exc()

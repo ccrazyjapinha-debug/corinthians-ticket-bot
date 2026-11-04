@@ -13,10 +13,10 @@ def resolver_captcha_api(driver, api_key):
     """
     Resolve desafios Cloudflare Turnstile via integração de API externa (opcional).
     """
-    print("[→] Verificando presença de desafio Turnstile...")
+    print("[INFO] Verificando presença de desafio Turnstile...")
     sitekey = _extrair_sitekey(driver)
     if not sitekey:
-        print("[!] Nenhum desafio bloqueante detectado")
+        print("[INFO] Nenhum desafio bloqueante detectado")
         return True
 
     page_url = driver.current_url
@@ -120,8 +120,8 @@ def captcha_manual(driver, timeout=120):
         return True
 
     print("\n" + "=" * 55)
-    print(Fore.YELLOW + "[!] AÇÃO NECESSÁRIA: Confirme a verificação no navegador")
-    print(Fore.YELLOW + f"[!] Tempo limite: {timeout} segundos")
+    print(Fore.YELLOW + "[AVISO] ACAO NECESSARIA: Confirme a verificação no navegador")
+    print(Fore.YELLOW + f"[AVISO] Tempo limite: {timeout} segundos")
     print("=" * 55 + "\n")
 
     inicio = time.time()
@@ -133,20 +133,20 @@ def captcha_manual(driver, timeout=120):
         _registrar_sinal_vida()
 
         if decorrido >= timeout:
-            print(Fore.RED + "[✗] Tempo esgotado aguardando verificação manual")
+            print(Fore.RED + "[ERRO] Tempo esgotado aguardando verificação manual")
             return False
 
         if agora - ultimo_log >= 15:
             restante = int(timeout - decorrido)
-            print(Fore.CYAN + f"[VERIFICAÇÃO] Aguardando confirmação... {restante}s restantes")
+            print(Fore.CYAN + f"[VERIFICACAO] Aguardando confirmação... {restante}s restantes")
             ultimo_log = agora
 
         try:
             iframes = driver.find_elements(By.CSS_SELECTOR, "iframe[src*='challenges.cloudflare.com']")
             if not iframes:
-                print(Fore.GREEN + "[✓] Verificação concluída!")
+                print(Fore.GREEN + "[OK] Verificação concluída!")
                 return True
         except Exception as ex:
-            print(Fore.YELLOW + f"[VERIFICAÇÃO] Aviso: {ex}")
+            print(Fore.YELLOW + f"[VERIFICACAO] Aviso: {ex}")
 
         time.sleep(1)

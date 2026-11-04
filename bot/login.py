@@ -14,7 +14,7 @@ def fazer_login(driver, login_usuario, senha):
     """
     Preenche as credenciais de acesso (CPF/E-mail e senha) no formulário de login.
     """
-    print("[→] Preenchendo credenciais de acesso...")
+    print("[INFO] Preenchendo credenciais de acesso...")
 
     try:
         campo_usuario = WebDriverWait(driver, 15).until(
@@ -35,11 +35,11 @@ def fazer_login(driver, login_usuario, senha):
         _digitar_humano(campo_senha, senha)
         time.sleep(random.uniform(0.4, 0.8))
 
-        print("[✓] Credenciais preenchidas")
+        print("[OK] Credenciais preenchidas")
         return True
 
     except Exception as e:
-        print(f"[✗] Erro ao localizar campos de login: {e}")
+        print(f"[ERRO] Erro ao localizar campos de login: {e}")
         return False
 
 
@@ -53,12 +53,12 @@ def clicar_botao_login(driver):
             timeout=15
         )
         clique_humano(driver, botao)
-        print("[✓] Formulário de login enviado")
+        print("[OK] Formulário de login enviado")
         time.sleep(3)
         return True
 
     except Exception as e:
-        print(f"[✗] Erro ao submeter login: {e}")
+        print(f"[ERRO] Erro ao submeter login: {e}")
         return False
 
 
@@ -74,10 +74,10 @@ def abrir_modal_login(driver):
         )
         clique_humano(driver, botao)
         time.sleep(2)
-        print("[✓] Tela de login aberta")
+        print("[OK] Tela de login aberta")
         return True
     except Exception as e:
-        print(f"[!] Botão de abertura de login não encontrado: {e}")
+        print(f"[AVISO] Botão de abertura de login não encontrado: {e}")
         return False
 
 
@@ -95,7 +95,7 @@ def verificar_login_ok(driver):
                 EC.url_contains("jogos")
             )
         )
-        print("[✓] Sessão autenticada confirmada!")
+        print("[OK] Sessão autenticada confirmada!")
         return True
     except Exception:
         return False
