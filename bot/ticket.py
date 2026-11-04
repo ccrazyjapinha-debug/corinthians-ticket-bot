@@ -1,5 +1,5 @@
 """
-ticket.py — Fluxo de seleção de partida, setor da Neo Química Arena (com fallback
+ticket.py - Fluxo de seleção de partida, setor da Neo Química Arena (com fallback
 automático por prioridade), quantidade de ingressos e avanço até a reserva.
 """
 
@@ -53,7 +53,7 @@ def selecionar_partida(driver, nome_partida=""):
     print(f"[INFO] Selecionando partida: {nome_partida or 'Primeira disponível'}...")
     try:
         if nome_partida:
-            termo = nome_partida.split("—")[0].strip()
+            termo = nome_partida.split("-")[0].strip()
             xpath_partida = (
                 f"//*[contains(text(),'{termo}')]/ancestor::*[self::div or self::article or self::li][1]"
                 f"//a[contains(text(),'Comprar') or contains(text(),'Reservar') or contains(text(),'Ingressos')]"
@@ -216,5 +216,5 @@ def fluxo_completo_reserva(driver, config):
     aceitar_termos(driver)
     clicar_continuar(driver, "confirmação de reserva")
 
-    print("\n[OK] INGRESSO RESERVADO NO CARRINHO — pronto para finalização do pagamento!")
+    print("\n[OK] INGRESSO RESERVADO NO CARRINHO - pronto para finalização do pagamento!")
     return True

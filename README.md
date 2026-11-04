@@ -1,11 +1,11 @@
-# Corinthians Ticket Bot — Automação RPA de Reserva de Ingressos
+# Corinthians Ticket Bot - Automação RPA de Reserva de Ingressos
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
 ![Selenium](https://img.shields.io/badge/Selenium-4.18%2B-43B02A?logo=selenium&logoColor=white)
 ![Chrome CDP](https://img.shields.io/badge/Chrome_CDP-Port_9222-4285F4?logo=googlechrome&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Concluído-brightgreen)
 
-Automação web resiliente (**RPA — Robotic Process Automation**) desenvolvida em **Python + Selenium** para monitorar a abertura de vendas e automatizar a seleção de setor e reserva de ingressos de jogos do **Sport Club Corinthians Paulista (Neo Química Arena / Fiel Torcedor)**.
+Automação web resiliente (**RPA - Robotic Process Automation**) desenvolvida em **Python + Selenium** para monitorar a abertura de vendas e automatizar a seleção de setor e reserva de ingressos de jogos do **Sport Club Corinthians Paulista (Neo Química Arena / Fiel Torcedor)**.
 
 > [!NOTE]
 > **Aviso Educacional:** Este projeto foi desenvolvido exclusivamente como estudo de caso prático de **Engenharia de Automação Web, Concorrência em Python e integração com Chrome DevTools Protocol (CDP)** para fins de aprendizado e portfólio técnico.
@@ -53,15 +53,15 @@ flowchart TD
 
 Você pode navegar pelos arquivos diretamente no topo do repositório (ou baixar tudo pelo botão verde **`<> Code` -> Download ZIP**), clicar nos links abaixo ou expandir os seletores de código diretamente nesta página:
 
-- [`main.py`](main.py) — Ponto de entrada, argumentos de linha de comando (`argparse`) e orquestração das etapas
-- [`config.example.json`](config.example.json) — Modelo de configuração (setores da Neo Química Arena, horários e credenciais)
-- [`start_chrome.bat`](start_chrome.bat) — Script para iniciar o Chrome com Remote Debugging (porta 9222)
-- [`bot/browser.py`](bot/browser.py) — Conexão CDP na porta 9222, waits explícitos e thread de Watchdog anti-stall
-- [`bot/ticket.py`](bot/ticket.py) — Seletores da página, fila de prioridade de setores da Arena e fluxo de reserva
-- [`bot/monitor.py`](bot/monitor.py) — Contagem regressiva pré-venda, login antecipado e polling de abertura
-- [`bot/login.py`](bot/login.py) — Preenchimento automatizado de credenciais com digitação humanizada
-- [`bot/captcha.py`](bot/captcha.py) — Tratamento de desafios de verificação (modo manual interativo ou API)
-- [`bot/notifier.py`](bot/notifier.py) — Alertas visuais e sonoros assíncronos (`winsound`)
+- [`main.py`](main.py) - Ponto de entrada, argumentos de linha de comando (`argparse`) e orquestração das etapas
+- [`config.example.json`](config.example.json) - Modelo de configuração (setores da Neo Química Arena, horários e credenciais)
+- [`start_chrome.bat`](start_chrome.bat) - Script para iniciar o Chrome com Remote Debugging (porta 9222)
+- [`bot/browser.py`](bot/browser.py) - Conexão CDP na porta 9222, waits explícitos e thread de Watchdog anti-stall
+- [`bot/ticket.py`](bot/ticket.py) - Seletores da página, fila de prioridade de setores da Arena e fluxo de reserva
+- [`bot/monitor.py`](bot/monitor.py) - Contagem regressiva pré-venda, login antecipado e polling de abertura
+- [`bot/login.py`](bot/login.py) - Preenchimento automatizado de credenciais com digitação humanizada
+- [`bot/captcha.py`](bot/captcha.py) - Tratamento de desafios de verificação (modo manual interativo ou API)
+- [`bot/notifier.py`](bot/notifier.py) - Alertas visuais e sonoros assíncronos (`winsound`)
 
 <details>
 <summary><strong>Ver código Python: main.py (Orquestrador Principal e CLI)</strong></summary>
@@ -86,7 +86,7 @@ init(autoreset=True)
 
 def carregar_config(caminho="config.json"):
     if not os.path.exists(caminho) and os.path.exists("config.example.json"):
-        print(Fore.YELLOW + f"[AVISO] '{caminho}' não encontrado — carregando 'config.example.json'.")
+        print(Fore.YELLOW + f"[AVISO] '{caminho}' não encontrado - carregando 'config.example.json'.")
         caminho = "config.example.json"
 
     with open(caminho, encoding="utf-8") as f:
@@ -267,7 +267,7 @@ Edite o `config.json` com a partida e a ordem de setores desejada:
 ```json
 {
   "target": {
-    "match_name": "Corinthians x Palmeiras — Campeonato Brasileiro",
+    "match_name": "Corinthians x Palmeiras - Campeonato Brasileiro",
     "stadium": "Neo Química Arena",
     "event_url": "https://www.fieltorcedor.com.br/jogos",
     "ticket_type": "Fiel Torcedor",

@@ -1,5 +1,5 @@
 """
-captcha.py — Gerenciamento de desafios de verificação (modo interativo manual ou API).
+captcha.py - Gerenciamento de desafios de verificação (modo interativo manual ou API).
 """
 
 import time

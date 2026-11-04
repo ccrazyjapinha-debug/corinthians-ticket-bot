@@ -1,5 +1,5 @@
 """
-notifier.py — Alertas visuais no console e notificações sonoras assíncronas (Windows).
+notifier.py - Alertas visuais no console e notificações sonoras assíncronas (Windows).
 """
 
 import threading

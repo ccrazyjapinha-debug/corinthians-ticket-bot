@@ -1,5 +1,5 @@
 """
-CORINTHIANS TICKET BOT — AUTOMAÇÃO DE RESERVA (RPA)
+CORINTHIANS TICKET BOT - AUTOMAÇÃO DE RESERVA (RPA)
 Monitoramento de Abertura + Seleção de Setor com Fallback
 
 USO:
@@ -33,7 +33,7 @@ def carregar_config(caminho="config.json"):
     Caso config.json não exista, utiliza config.example.json como fallback.
     """
     if not os.path.exists(caminho) and os.path.exists("config.example.json"):
-        print(Fore.YELLOW + f"[AVISO] '{caminho}' não encontrado — carregando 'config.example.json'.")
+        print(Fore.YELLOW + f"[AVISO] '{caminho}' não encontrado - carregando 'config.example.json'.")
         caminho = "config.example.json"
 
     try:
@@ -111,7 +111,7 @@ def executar_reserva(driver, config, url_override=None, modo_debug=False):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Corinthians Ticket Bot — Automação de Reserva de Ingressos"
+        description="Corinthians Ticket Bot - Automação de Reserva de Ingressos"
     )
     parser.add_argument("--debug", action="store_true", help="Mantém a sessão do navegador aberta ao finalizar")
     parser.add_argument("--config", default="config.json", help="Caminho para o arquivo de configuração JSON")

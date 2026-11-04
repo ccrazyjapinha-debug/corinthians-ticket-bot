@@ -1,5 +1,5 @@
 """
-login.py — Módulo de autenticação automatizada no portal Fiel Torcedor / Ingressos.
+login.py - Módulo de autenticação automatizada no portal Fiel Torcedor / Ingressos.
 """
 
 import time

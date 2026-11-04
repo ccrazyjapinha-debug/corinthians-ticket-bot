@@ -1,5 +1,5 @@
 """
-monitor.py — Monitor de abertura de vendas de ingressos na Neo Química Arena (Fiel Torcedor).
+monitor.py - Monitor de abertura de vendas de ingressos na Neo Química Arena (Fiel Torcedor).
 Gerencia a contagem regressiva pré-abertura, login antecipado e polling em tempo real.
 """
 
@@ -36,7 +36,7 @@ def aguardar_horario_abertura(horario_str, minutos_antes=5):
     agora = datetime.now()
 
     if agora >= inicio_bot:
-        print(Fore.YELLOW + "[AVISO] Horário de preparação atingido — iniciando execução imediatamente...")
+        print(Fore.YELLOW + "[AVISO] Horário de preparação atingido - iniciando execução imediatamente...")
         return
 
     espera_total = (inicio_bot - agora).total_seconds()
@@ -166,5 +166,5 @@ def fazer_login_antecipado(driver, config):
             print(Fore.GREEN + "[OK] Login antecipado concluído com sucesso!")
             return True
 
-    print(Fore.YELLOW + "[AVISO] Login antecipado pendente — será validado na etapa final")
+    print(Fore.YELLOW + "[AVISO] Login antecipado pendente - será validado na etapa final")
     return False

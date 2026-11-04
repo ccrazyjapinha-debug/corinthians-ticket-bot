@@ -1,5 +1,5 @@
 """
-browser.py — Gerenciamento de sessão do Chrome via Chrome DevTools Protocol (CDP)
+browser.py - Gerenciamento de sessão do Chrome via Chrome DevTools Protocol (CDP)
 e thread de Watchdog anti-stall.
 
 Estratégia arquitetural:
@@ -79,7 +79,7 @@ def iniciar_watchdog(driver, timeout_segundos=60, callback=None):
                 inativo_ha = time.time() - _ultimo_sinal_vida
 
             if inativo_ha > timeout_segundos:
-                print(Fore.YELLOW + f"\n[WATCHDOG] Fluxo sem resposta há {int(inativo_ha)}s — executando recuperação!")
+                print(Fore.YELLOW + f"\n[WATCHDOG] Fluxo sem resposta há {int(inativo_ha)}s - executando recuperação!")
                 if callback:
                     try:
                         callback(driver)
