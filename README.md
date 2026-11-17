@@ -20,6 +20,7 @@ Este projeto resolve esse cenário automatizando:
 1. **Preparação e Login Antecipado:** Autentica a sessão minutos antes do horário oficial de abertura.
 2. **Monitoramento Ativo (Polling):** Verifica continuamente a liberação das reservas em intervalos configuráveis.
 3. **Algoritmo de Fallback por Prioridade de Setor:** Tenta o setor preferido (*ex.: Norte*) e, caso esteja esgotado, percorre automaticamente uma fila de prioridade (*Sul -> Leste Inferior -> Leste Superior -> Oeste Inferior*).
+   - Se nenhum setor disponível puder ser selecionado, o fluxo é interrompido e reporta falha, evitando avançar com uma seleção não confirmada.
 4. **Recuperação Automática contra Travamentos (Watchdog Thread):** Uma thread paralela monitora o estado do navegador e recupera a página caso o carregamento trave.
 
 ---

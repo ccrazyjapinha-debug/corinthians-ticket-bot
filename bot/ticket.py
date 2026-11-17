@@ -112,8 +112,8 @@ def selecionar_setor_por_prioridade(driver, setor_preferido="Norte", lista_prior
         except Exception:
             continue
 
-    print("[AVISO] Seleção específica de setor não exigida ou usando listagem padrão")
-    return True
+    print("[ERRO] Nenhum setor disponível foi selecionado.")
+    return False
 
 
 def selecionar_ingresso(driver, tipo_ingresso="Fiel Torcedor", quantidade=1):
@@ -197,11 +197,13 @@ def fluxo_completo_reserva(driver, config):
     if not selecionar_partida(driver, target.get("match_name", "")):
         return False
 
-    selecionar_setor_por_prioridade(
+    if not selecionar_setor_por_prioridade(
         driver,
         setor_preferido=target.get("setor_preferido", "Norte"),
         lista_prioridade=target.get("setores_por_prioridade"),
-    )
+    ):
+        print("[ERRO] Fluxo interrompido: não foi possível selecionar um setor.")
+        return False
 
     if not selecionar_ingresso(
         driver,
