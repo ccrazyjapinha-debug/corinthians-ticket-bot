@@ -82,24 +82,23 @@ def abrir_modal_login(driver):
 
 
 def verificar_login_ok(driver):
-    """Verifica se já existe uma sessão autenticada ativa no navegador."""
+    """
+    Confirma a sessão por indicadores de interface associados a uma conta autenticada.
+
+    A URL da página não é usada como prova de autenticação: páginas públicas,
+    como a listagem de jogos, também podem conter esses caminhos.
+    """
     try:
         WebDriverWait(driver, 8).until(
-            EC.any_of(
-                EC.presence_of_element_located((
-                    By.CSS_SELECTOR,
-                    ".user-logged, .minha-conta, .perfil-usuario, a[href*='logout'], a[href*='sair']"
-                )),
-                EC.url_contains("minha-conta"),
-                EC.url_contains("dashboard"),
-                EC.url_contains("jogos")
-            )
+            EC.presence_of_element_located((
+                By.CSS_SELECTOR,
+                ".user-logged, .minha-conta, .perfil-usuario, a[href*='logout'], a[href*='sair']"
+            ))
         )
-        print("[OK] Sessão autenticada confirmada!")
+        print("[OK] Indicador de sessão autenticada encontrado!")
         return True
     except Exception:
         return False
-
 
 def _digitar_humano(elemento, texto):
     """Simula digitação caractere a caractere com intervalo variável."""
